@@ -1,0 +1,9 @@
+---
+# module: rd-ansible-influx-db/handlers
+# description: Restart services
+
+- name: Restart influxdb
+  service:
+    name: "influxdb"
+    state: restarted
+  listen: restart_influxdb

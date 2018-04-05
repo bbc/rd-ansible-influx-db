@@ -1,0 +1,14 @@
+---
+# name: rd-ansible-influx-db/defaults
+# description: ALL our default variables for rd-ansible-influx-db go in here
+#------------------------------------------------------------------------------
+# Packages - All our required packages we need installing
+#------------------------------------------------------------------------------
+
+packages:
+  - influxdb
+
+# Influxdb data
+influx_db_config_location: /etc/influxdb/influxdb.conf
+influx_db_user: username
+influx_db_password: password

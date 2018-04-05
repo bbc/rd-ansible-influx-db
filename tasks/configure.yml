@@ -1,0 +1,29 @@
+---
+# module: rd-ansible-influx-db/tasks/configure
+# description: Configure rd-ansible-influx-db
+
+- name: Check current users
+  shell: "influx -username {{ influx_db_user }} -password {{ influx_db_password }} -execute \"SHOW USERS\""
+  changed_when: false
+  failed_when: false
+  args:
+    warn: no
+  register: users
+
+- name: Add user
+  shell: "influx -username {{ influx_db_user }} -password {{ influx_db_password }} -execute \"CREATE USER {{ influx_db_user }} WITH PASSWORD '{{ influx_db_password }}' WITH ALL PRIVILEGES\""
+  args:
+    warn: no
+  when: not users.stdout | search(influx_db_user)
+
+- name: Fix up influxdb config
+  lineinfile:
+    dest: "{{ influx_db_config_location }}"
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  with_items:
+    - { line: "auth-enabled = true", regexp: 'auth-enabled ='}
+  notify: restart_influxdb
+
+- name: Force restart service after reread config
+  meta: flush_handlers

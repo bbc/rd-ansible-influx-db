@@ -1,0 +1,9 @@
+---
+# module: rd-ansible-influx-db/tasks
+# description: Install rd-ansible-influx-db onto Ubuntu 16
+
+- name: Install rd-ansible-influx-db
+  include_tasks: install.yml
+
+- name: Configure rd-ansible-influx-db
+  include_tasks: configure.yml

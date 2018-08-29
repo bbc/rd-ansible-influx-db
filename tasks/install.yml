@@ -2,6 +2,11 @@
 # module: rd-ansible-influx-db/tasks/install
 # description: Install our required packages for rd-ansible-influx-db
 
+- name: Make sure GPG is installed
+  package:
+    name: "gnupg"
+    state: present
+
 - name: Add Influx gpg key
   apt_key:
     url: https://repos.influxdata.com/influxdb.key

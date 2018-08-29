@@ -14,7 +14,7 @@
   shell: "influx -username {{ influx_db_user }} -password {{ influx_db_password }} -execute \"CREATE USER {{ influx_db_user }} WITH PASSWORD '{{ influx_db_password }}' WITH ALL PRIVILEGES\""
   args:
     warn: no
-  when: not users.stdout | search(influx_db_user)
+  when: not users.stdout is search(influx_db_user)
 
 - name: Fix up influxdb config
   lineinfile:

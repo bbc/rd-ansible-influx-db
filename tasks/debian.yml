@@ -1,0 +1,25 @@
+---
+# module: rd-ansible-influx-db/tasks/debian
+# description: Install debian/ubuntu specifics
+
+- name: Make sure GPG is installed
+  package:
+    name: "gnupg"
+    state: present
+
+- name: Add Influx gpg key
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+
+- name: Add Influx repo
+  apt_repository:
+    repo: 'deb https://repos.influxdata.com/ubuntu xenial stable'
+    state: present
+  register: repo_added
+
+- name: Update apt-cache
+  command: "apt-get update"
+  args:
+    warn: no
+  when: repo_added.changed

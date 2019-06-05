@@ -2,27 +2,10 @@
 # module: rd-ansible-influx-db/tasks/install
 # description: Install our required packages for rd-ansible-influx-db
 
-- name: Make sure GPG is installed
-  package:
-    name: "gnupg"
-    state: present
-
-- name: Add Influx gpg key
-  apt_key:
-    url: https://repos.influxdata.com/influxdb.key
-    state: present
-
-- name: Add Influx repo
-  apt_repository:
-    repo: 'deb https://repos.influxdata.com/ubuntu xenial stable'
-    state: present
-  register: repo_added
-
-- name: Update apt-cache
-  command: "apt-get update"
-  args:
-    warn: no
-  when: repo_added.changed
+- name: If we enable kapacitor then add this to the package list
+  set_fact:
+    packages: "{{ packages + [ 'kapacitor' ] }}"
+  when: influx_db_enable_kapacitor
 
 - name: Install all required packages
   package:
@@ -30,9 +13,8 @@
     state: present
   with_items: "{{ packages }}"
 
-- name: Make sure service is running and starts on boot
+- name: Make influxdb is started so we can use api
   service:
-    name: "{{ item }}"
-    state: started
+    name: influxdb
     enabled: true
-  with_items: "{{ packages }}"
+    state: started

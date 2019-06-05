@@ -1,7 +1,7 @@
 rd-ansible-influx-db
 =========
 
-This module installs influxdb and allows you to specify a default user and password
+This role installs influxdb and optional kapacitor and allows you to specify a default user and password
 
 Requirements
 ------------

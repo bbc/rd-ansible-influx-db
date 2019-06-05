@@ -26,6 +26,7 @@
     # Role variables here
     # example: 'test'
     #
+    influx_db_enable_kapacitor: true    
 
   pre_tasks:
     - name: Install python2.x for Ansible when we are not using python3

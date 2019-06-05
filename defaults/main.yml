@@ -12,3 +12,6 @@ packages:
 influx_db_config_location: /etc/influxdb/influxdb.conf
 influx_db_user: username
 influx_db_password: password
+
+# Kapacitor
+influx_db_enable_kapacitor: false

@@ -1,6 +1,9 @@
 ---
 # module: rd-ansible-influx-db/tasks
-# description: Install rd-ansible-influx-db onto Ubuntu 16
+# description: Install rd-ansible-influx-db onto Ubuntu 16/18 or Centos 7
+
+- name: Include our operating system specific yaml file
+  include_tasks: "{{ ansible_os_family | lower }}.yml"
 
 - name: Install rd-ansible-influx-db
   include_tasks: install.yml

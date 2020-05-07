@@ -7,3 +7,9 @@
     name: "influxdb"
     state: restarted
   listen: restart_influxdb
+
+- name: Restart kapacitor
+  service:
+    name: "kapacitor"
+    state: restarted
+  listen: restart_kapacitor

@@ -25,5 +25,25 @@
     - { line: "auth-enabled = true", regexp: 'auth-enabled ='}
   notify: restart_influxdb
 
+- name: Fix up kapacitor config
+  replace:
+    path: /etc/kapacitor/kapacitor.conf
+    regexp: "{{ item.regexp }}"
+    replace: "{{ item.line }}"
+    after: '.+http://localhost:8086*'
+    before: '  # Absolute path to pem encoded CA file.'
+  with_items:
+    - { line: '  username = "{{ influx_db_user }}"', regexp: '  username = ""'}
+    - { line: '  password = "{{ influx_db_password }}"', regexp: '  password = ""'}
+  notify: restart_kapacitor
+  when: influx_db_enable_kapacitor
+
 - name: Force restart service after reread config
   meta: flush_handlers
+
+- name: Make sure service is running and starts on boot
+  service:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  with_items: "{{ packages }}"

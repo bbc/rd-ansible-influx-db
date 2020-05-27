@@ -16,13 +16,6 @@
   apt_repository:
     repo: 'deb https://repos.influxdata.com/ubuntu xenial stable'
     state: present
-  register: repo_added
-
-- name: Update apt-cache
-  command: "apt-get update"
-  args:
-    warn: no
-  when: repo_added.changed
 
 - name: Install all required packages
   package:
